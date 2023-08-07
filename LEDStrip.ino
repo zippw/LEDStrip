@@ -27,7 +27,16 @@ uint8_t prefix[] = {'A', 'd', 'a'},
 
 // Initialise LED-array
 CRGB leds[NUM_LEDS];
+void initAnimation(ledI, ledNum)
+{
+    for (int i = 0; i < ledNum; i++)
+    {
+        leds[ledI + i] = CRGB(5, 255, 161);
+        FastLED.show();
 
+        delay(20);
+    }
+}
 void setup()
 {
     // Use NEOPIXEL to keep true colors / WS2801
@@ -35,18 +44,10 @@ void setup()
     FastLED.addLeds<NEOPIXEL, S2_PIN>(leds, S1_LEDS - 1, S2_LEDS);
 
     // Initial RGB flash
-    for (int i = 0; i < NUM_LEDS; i++)
-    {
-        // Установка цвета светодиода
-        leds[i] = CRGB::Red;
+    initAnimation(0, S1_LEDS);
+    initAnimation(S1_LEDS - 1, S2_LEDS);
 
-        // Отображение изменений на ленте
-        FastLED.show();
-
-        // Задержка между светодиодами
-        delay(20);
-    }
-    delay(200);
+    delay(5000);
     LEDS.showColor(CRGB(0, 0, 0));
 
     Serial.begin(serialRate);
