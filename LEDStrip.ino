@@ -30,32 +30,21 @@ uint8_t prefix[] = {'A', 'd', 'a'},
 // Initialise LED-array
 CRGB leds[NUM_LEDS];
 
-void createGradient(CRGB* gradient, int gradientSize, CRGB* anim_colors, int colorCount)
+void createGradient(CRGB *gradient, int ledNum)
 {
-    float step = 1.0 / (gradientSize - 1); // Шаг интерполяции между цветами
-    for (int i = 0; i < gradientSize; i++)
+    int colorCount = sizeof(anim_colors) / sizeof(anim_colors[0]);
+
+    for (int i = 0; i < ledNum; i++)
     {
-        float t = i * step; // Прогресс интерполяции от 0 до 1
-
-        // Находим ближайшие цвета для интерполяции
-        int colorIndex1 = t * (colorCount - 1);
-        int colorIndex2 = colorIndex1 + 1;
-
-        // Интерполируем цвета
-        CRGB color1 = anim_colors[colorIndex1];
-        CRGB color2 = anim_colors[colorIndex2];
-        CRGB interpolatedColor = color1.lerp8(color2, (t - colorIndex1 * step) * (colorCount - 1));
-
-        // Записываем цвет в массив градиента
-        gradient[i] = interpolatedColor;
+        int colorIndex = i * (colorCount - 1) / (18 - 1);
+        gradient[i] = anim_colors[colorIndex];
     }
 }
 
 void initAnimation(int ledI, int ledNum)
 {
     CRGB gradient[ledNum];
-    createGradient(gradient, ledNum, anim_colors, sizeof(anim_colors) / sizeof(anim_colors[0]));
-    Serial.print(gradient);
+    createGradient(gradient, ledNum);
 
     for (int i = 0; i < ledNum; i++)
     {
