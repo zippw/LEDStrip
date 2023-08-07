@@ -66,7 +66,7 @@ void setup()
 
     // Initial RGB flash
     initAnimation(0, S1_LEDS);
-    initAnimation(S1_LEDS - 1, S2_LEDS);
+    initAnimation(S1_LEDS, S2_LEDS);
 
     Serial.begin(serialRate);
     // Send "Magic Word" string to host
