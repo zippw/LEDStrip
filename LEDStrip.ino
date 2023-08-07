@@ -42,9 +42,16 @@ void initAnimation(int ledI, int ledNum)
 {
     for (int i = 0; i < ledNum; i++)
     {
-        uint8_t step = map(i, 0, 17, 0, 255);
+        uint8_t step = map(i, 0, ledNum - 1, 0, 255);
         leds[ledI + i] = ColorFromPalette(myPal, step);
-        Serial.println(step);
+        FastLED.show();
+
+        delay(20);
+    }
+
+    for (int i = 0; i < ledNum; i++)
+    {
+        leds[ledI + i] = CRGB(0, 0, 0);
         FastLED.show();
 
         delay(20);
@@ -60,9 +67,6 @@ void setup()
     // Initial RGB flash
     initAnimation(0, S1_LEDS);
     initAnimation(S1_LEDS - 1, S2_LEDS);
-
-    delay(5000);
-    LEDS.showColor(CRGB(0, 0, 0));
 
     Serial.begin(serialRate);
     // Send "Magic Word" string to host
