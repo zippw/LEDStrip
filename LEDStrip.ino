@@ -21,18 +21,6 @@
 
 #define NUM_LEDS S1_LEDS + S2_LEDS
 
-DEFINE_GRADIENT_PALETTE (heatmap_gp) {
-    0, 0, 0, 0,
-    128, 255, 0, 0,
-    200, 0, 255, 0,
-    255, 0, 0, 255
-};
-
-CRGBPalette16 myPal = heatmap_gp;
-
-CRGB anim_colors[] = {CRGB(255, 0, 0), CRGB(0, 255, 0), CRGB(0, 0, 255)};
-// CRGB anim_colors[] = {CRGB(5, 255, 161), CRGB(255, 251, 150), CRGB(255, 113, 206)};
-
 // Adalight sends a "Magic Word" (defined in /etc/boblight.conf) before sending the pixel data
 uint8_t prefix[] = {'A', 'd', 'a'},
         hi, lo, chk, i;
@@ -51,21 +39,25 @@ CRGB leds[NUM_LEDS];
 //     }
 // }
 
+DEFINE_GRADIENT_PALETTE (vaporwave) {
+    0, 0, 0, 0,
+    64, 255, 0, 0,
+    128, 0, 255, 0,
+    192, 0, 0, 255,
+    255, 0, 0, 0
+};
+
+CRGBPalette16 myPal = vaporwave;
+
 void initAnimation(int ledI, int ledNum)
 {
-    CRGB gradient[ledNum];
-    // createGradient(gradient, ledNum);
+    for (int i = 0; i < ledNum; i++)
+    {
+        leds[ledI + i] = ColorFromPalette(myPal, 192);
+        FastLED.show();
 
-    // for (int i = 0; i < ledNum; i++)
-    // {
-    //     CRGB color = gradient[i];
-    //     leds[ledI + i] = color;
-    //     FastLED.show();
-
-    //     delay(20);
-    // }
-
-    fill_palette(gradient, ledNum, 0, 255 / ledNum, myPal, 255, LINEARBLEND);
+        delay(20);
+    }
 }
 
 void setup()
@@ -83,6 +75,7 @@ void setup()
 
     Serial.begin(serialRate);
     // Send "Magic Word" string to host
+    Serial.println(map(17, 0, 18, 0, 255));
     Serial.print("Ada\n");
 }
 
