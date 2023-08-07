@@ -53,7 +53,7 @@ void initAnimation(int ledI, int ledNum)
 {
     for (int i = 0; i < ledNum; i++)
     {
-        leds[ledI + i] = ColorFromPalette(myPal, 192);
+        leds[ledI + i] = ColorFromPalette(myPal, map(i, 0, 18, 0, 255));
         FastLED.show();
 
         delay(20);
@@ -75,7 +75,6 @@ void setup()
 
     Serial.begin(serialRate);
     // Send "Magic Word" string to host
-    Serial.println(map(17, 0, 18, 0, 255));
     Serial.print("Ada\n");
 }
 
