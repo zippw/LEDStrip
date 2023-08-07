@@ -55,6 +55,7 @@ void initAnimation(int ledI, int ledNum)
 {
     CRGB gradient[ledNum];
     createGradient(gradient, ledNum, anim_colors, sizeof(anim_colors) / sizeof(anim_colors[0]));
+    Serial.print(gradient);
 
     for (int i = 0; i < ledNum; i++)
     {
