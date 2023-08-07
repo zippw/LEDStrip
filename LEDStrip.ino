@@ -28,23 +28,12 @@ uint8_t prefix[] = {'A', 'd', 'a'},
 // Initialise LED-array
 CRGB leds[NUM_LEDS];
 
-// void createGradient(CRGB *gradient, int ledNum)
-// {
-//     int colorCount = sizeof(anim_colors) / sizeof(anim_colors[0]);
-
-//     for (int i = 0; i < ledNum; i++)
-//     {
-//         int colorIndex = i * (colorCount - 1) / (18 - 1);
-//         gradient[i] = anim_colors[colorIndex];
-//     }
-// }
-
 DEFINE_GRADIENT_PALETTE (vaporwave) {
-    0, 0, 0, 0,
-    64, 255, 0, 0,
-    128, 0, 255, 0,
-    192, 0, 0, 255,
-    255, 0, 0, 0
+    0, 255, 113, 206,
+    64, 185, 103, 255,
+    128, 1, 205, 254,
+    192, 5, 255, 161,
+    255, 255, 251, 150
 };
 
 CRGBPalette16 myPal = vaporwave;
@@ -53,7 +42,9 @@ void initAnimation(int ledI, int ledNum)
 {
     for (int i = 0; i < ledNum; i++)
     {
-        leds[ledI + i] = ColorFromPalette(myPal, map(i, 0, 18, 0, 255));
+        uint8_t step = map(i, 0, 17, 0, 255);
+        leds[ledI + i] = ColorFromPalette(myPal, step);
+        Serial.println(step);
         FastLED.show();
 
         delay(20);
