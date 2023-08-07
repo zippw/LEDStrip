@@ -62,7 +62,7 @@ void setup()
 {
     // Use NEOPIXEL to keep true colors / WS2801
     FastLED.addLeds<NEOPIXEL, S1_PIN>(leds, 0, S1_LEDS);
-    FastLED.addLeds<NEOPIXEL, S2_PIN>(leds, S1_LEDS - 1, S2_LEDS);
+    FastLED.addLeds<NEOPIXEL, S2_PIN>(leds, S1_LEDS, S2_LEDS);
 
     // Initial RGB flash
     initAnimation(0, S1_LEDS);
