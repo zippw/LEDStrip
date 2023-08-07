@@ -27,7 +27,7 @@ uint8_t prefix[] = {'A', 'd', 'a'},
 
 // Initialise LED-array
 CRGB leds[NUM_LEDS];
-void initAnimation(ledI, ledNum)
+void initAnimation(int ledI, int ledNum)
 {
     for (int i = 0; i < ledNum; i++)
     {
@@ -37,6 +37,7 @@ void initAnimation(ledI, ledNum)
         delay(20);
     }
 }
+
 void setup()
 {
     // Use NEOPIXEL to keep true colors / WS2801
