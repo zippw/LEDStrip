@@ -21,7 +21,17 @@
 
 #define NUM_LEDS S1_LEDS + S2_LEDS
 
-CRGB anim_colors[] = {CRGB(5, 255, 161), CRGB(255, 251, 150), CRGB(255, 113, 206)};
+DEFINE_GRADIENT_PALETTE (heatmap_gp) {
+    0, 0, 0, 0,
+    128, 255, 0, 0,
+    200, 0, 255, 0,
+    255, 0, 0, 255
+};
+
+CRGBPalette16 myPal = heatmap_gp;
+
+CRGB anim_colors[] = {CRGB(255, 0, 0), CRGB(0, 255, 0), CRGB(0, 0, 255)};
+// CRGB anim_colors[] = {CRGB(5, 255, 161), CRGB(255, 251, 150), CRGB(255, 113, 206)};
 
 // Adalight sends a "Magic Word" (defined in /etc/boblight.conf) before sending the pixel data
 uint8_t prefix[] = {'A', 'd', 'a'},
@@ -30,30 +40,32 @@ uint8_t prefix[] = {'A', 'd', 'a'},
 // Initialise LED-array
 CRGB leds[NUM_LEDS];
 
-void createGradient(CRGB *gradient, int ledNum)
-{
-    int colorCount = sizeof(anim_colors) / sizeof(anim_colors[0]);
+// void createGradient(CRGB *gradient, int ledNum)
+// {
+//     int colorCount = sizeof(anim_colors) / sizeof(anim_colors[0]);
 
-    for (int i = 0; i < ledNum; i++)
-    {
-        int colorIndex = i * (colorCount - 1) / (18 - 1);
-        gradient[i] = anim_colors[colorIndex];
-    }
-}
+//     for (int i = 0; i < ledNum; i++)
+//     {
+//         int colorIndex = i * (colorCount - 1) / (18 - 1);
+//         gradient[i] = anim_colors[colorIndex];
+//     }
+// }
 
 void initAnimation(int ledI, int ledNum)
 {
     CRGB gradient[ledNum];
-    createGradient(gradient, ledNum);
+    // createGradient(gradient, ledNum);
 
-    for (int i = 0; i < ledNum; i++)
-    {
-        CRGB color = gradient[i];
-        leds[ledI + i] = color;
-        FastLED.show();
+    // for (int i = 0; i < ledNum; i++)
+    // {
+    //     CRGB color = gradient[i];
+    //     leds[ledI + i] = color;
+    //     FastLED.show();
 
-        delay(20);
-    }
+    //     delay(20);
+    // }
+
+    fill_palette(gradient, ledNum, 0, 255 / ledNum, myPal, 255, LINEARBLEND);
 }
 
 void setup()
