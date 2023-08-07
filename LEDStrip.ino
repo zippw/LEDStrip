@@ -21,6 +21,8 @@
 
 #define NUM_LEDS S1_LEDS + S2_LEDS
 
+CRGB anim_colors[] = {CRGB(5, 255, 161), CRGB(255, 251, 150), CRGB(255, 113, 206)};
+
 // Adalight sends a "Magic Word" (defined in /etc/boblight.conf) before sending the pixel data
 uint8_t prefix[] = {'A', 'd', 'a'},
         hi, lo, chk, i;
@@ -29,9 +31,12 @@ uint8_t prefix[] = {'A', 'd', 'a'},
 CRGB leds[NUM_LEDS];
 void initAnimation(int ledI, int ledNum)
 {
+    int colorCount = sizeof(anim_colors) / sizeof(anim_colors[0]);
+    Serial.print(colorCount);
     for (int i = 0; i < ledNum; i++)
     {
-        leds[ledI + i] = CRGB(5, 255, 161);
+        CRGB color = anim_colors[i % colorCount];
+        leds[ledI + i] = color;
         FastLED.show();
 
         delay(20);
