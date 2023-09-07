@@ -15,11 +15,13 @@
 
 #define S1_PIN 4
 #define S2_PIN 5
+#define S3_PIN 6
 
 #define S1_LEDS 30
 #define S2_LEDS 18
+#define S3_LEDS 10
 
-#define NUM_LEDS S1_LEDS + S2_LEDS
+#define NUM_LEDS S1_LEDS + S2_LEDS + S3_LEDS
 
 // Adalight sends a "Magic Word" (defined in /etc/boblight.conf) before sending the pixel data
 uint8_t prefix[] = {'A', 'd', 'a'},
@@ -28,13 +30,12 @@ uint8_t prefix[] = {'A', 'd', 'a'},
 // Initialise LED-array
 CRGB leds[NUM_LEDS];
 
-DEFINE_GRADIENT_PALETTE (vaporwave) {
+DEFINE_GRADIENT_PALETTE(vaporwave){
     0, 255, 113, 206,
     64, 185, 103, 255,
     128, 1, 205, 254,
     192, 5, 255, 161,
-    255, 255, 251, 150
-};
+    255, 255, 251, 150};
 
 CRGBPalette16 myPal = vaporwave;
 
@@ -58,17 +59,30 @@ void initAnimation(int ledI, int ledNum)
     }
 }
 
+void initFadeAnimation(int ledNum, int stagger)
+{
+    for (uint8_t i = 0; i < 256; i++)
+    {
+        FastLED.setBrightness(i);
+        delay(stagger);
+    }
+}
+
 void setup()
 {
     // Use NEOPIXEL to keep true colors / WS2801
     FastLED.addLeds<NEOPIXEL, S1_PIN>(leds, 0, S1_LEDS);
     FastLED.addLeds<NEOPIXEL, S2_PIN>(leds, S1_LEDS, S2_LEDS);
+    FastLED.addLeds<NEOPIXEL, S3_PIN>(leds, S1_LEDS + S2_LEDS, S3_LEDS);
 
     // Initial RGB flash
     initAnimation(0, S1_LEDS);
     initAnimation(S1_LEDS, S2_LEDS);
+    initAnimation(S1_LEDS + S2_LEDS, S3_LEDS);
 
     Serial.begin(serialRate);
+
+    initFadeAnimation(NUM_LEDS, 3);
     // Send "Magic Word" string to host
     Serial.print("Ada\n");
 }
