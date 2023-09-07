@@ -59,15 +59,6 @@ void initAnimation(int ledI, int ledNum)
     }
 }
 
-void initFadeAnimation(int ledNum, int stagger)
-{
-    for (uint8_t i = 0; i < 256; i++)
-    {
-        FastLED.setBrightness(i);
-        delay(stagger);
-    }
-}
-
 void setup()
 {
     // Use NEOPIXEL to keep true colors / WS2801
@@ -81,8 +72,6 @@ void setup()
     initAnimation(S1_LEDS + S2_LEDS, S3_LEDS);
 
     Serial.begin(serialRate);
-
-    initFadeAnimation(NUM_LEDS, 3);
     // Send "Magic Word" string to host
     Serial.print("Ada\n");
 }
