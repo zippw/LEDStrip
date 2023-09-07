@@ -19,7 +19,7 @@
 
 #define S1_LEDS 30
 #define S2_LEDS 18
-#define S3_LEDS 10
+#define S3_LEDS 30
 
 #define NUM_LEDS S1_LEDS + S2_LEDS + S3_LEDS
 
