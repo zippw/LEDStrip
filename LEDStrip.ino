@@ -15,13 +15,11 @@
 
 #define S1_PIN 4
 #define S2_PIN 5
-#define S3_PIN 6
 
 #define S1_LEDS 30
 #define S2_LEDS 18
-#define S3_LEDS 30
 
-#define NUM_LEDS S1_LEDS + S2_LEDS + S3_LEDS
+#define NUM_LEDS S1_LEDS + S2_LEDS
 
 // Adalight sends a "Magic Word" (defined in /etc/boblight.conf) before sending the pixel data
 uint8_t prefix[] = {'A', 'd', 'a'},
@@ -64,12 +62,10 @@ void setup()
     // Use NEOPIXEL to keep true colors / WS2801
     FastLED.addLeds<NEOPIXEL, S1_PIN>(leds, 0, S1_LEDS);
     FastLED.addLeds<NEOPIXEL, S2_PIN>(leds, S1_LEDS, S2_LEDS);
-    FastLED.addLeds<NEOPIXEL, S3_PIN>(leds, S1_LEDS + S2_LEDS, S3_LEDS);
 
     // Initial RGB flash
     initAnimation(0, S1_LEDS);
     initAnimation(S1_LEDS, S2_LEDS);
-    initAnimation(S1_LEDS + S2_LEDS, S3_LEDS);
 
     Serial.begin(serialRate);
     // Send "Magic Word" string to host
